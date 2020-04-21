@@ -4,6 +4,7 @@
 
 # Xcode
 #
+xcshareddata/
 build/
 *.pbxuser
 !default.pbxuser
@@ -61,3 +62,11 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+*.zip
+
+ios.01/
+
+# firebase credentials
+ios/GoogleService-Info.plist
+android/app/google-services.json

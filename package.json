@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "postinstall": "yarn pod",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "pod": "cd ios && pod install || echo '\n*** CocoaPods not found, iOS build will not work!! ***\n' && cd ..",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "xcode": "open ios/CoughRecording.xcworkspace/"
   },
   "dependencies": {
     "react": "16.11.0",
