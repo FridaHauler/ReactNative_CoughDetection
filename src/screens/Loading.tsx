@@ -1,32 +1,33 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import {AppTheme} from '../screens';
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '100%',
+		backgroundColor: AppTheme.colors.background,
+	},
+	splashImage: {
+		width: 200,
+		height: 200,
+	},
+	appName: {
+		marginTop: 40,
+		fontSize: 24,
+		fontWeight: '600',
+		color: AppTheme.colors.text,
+	},
+});
 
 const Loading = () => {
 	return (
 		<>
-			<View
-				style={{
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: '100%',
-				}}>
-				<Image
-					accessibilityRole={'image'}
-					source={require('../assets/splash.png')}
-					style={{
-						width: 200,
-						height: 200,
-					}}
-				/>
-				<Text
-					style={{
-						marginTop: 40,
-						fontSize: 24,
-						fontWeight: '600',
-					}}>
-					{require('../../app.json').displayName}
-				</Text>
+			<View style={styles.container}>
+				<Image accessibilityRole={'image'} source={require('../assets/splash.png')} style={styles.splashImage} />
+				<Text style={styles.appName}>{require('../../app.json').displayName}</Text>
 			</View>
 		</>
 	);

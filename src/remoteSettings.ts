@@ -4,7 +4,6 @@ export async function init() {
 	// Load default remote config firebase settings
 	await remoteConfig().setDefaults({
 		test123: 1,
-
 	});
 	await remoteConfig().setConfigSettings({
 		minimumFetchInterval: 300, // 5 min

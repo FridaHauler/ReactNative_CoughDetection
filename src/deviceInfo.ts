@@ -1,6 +1,6 @@
 import * as deviceInfoLib from 'react-native-device-info';
 import {DeviceType} from 'react-native-device-info/lib/typescript/internal/types';
-import {Platform} from "react-native";
+import {Platform} from 'react-native';
 
 interface DeviceInfo {
 	uniqueID: string;
