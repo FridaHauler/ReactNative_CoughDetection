@@ -1,5 +1,5 @@
-import {StyleSheet} from "react-native";
-import {AppTheme} from "./utils";
+import {StyleSheet} from 'react-native';
+import {AppTheme} from './utils';
 
 const styles = StyleSheet.create({
 	loadingContainer: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		height: '100%',
 		backgroundColor: AppTheme.colors.background,
-		color: AppTheme.colors.text
+		color: AppTheme.colors.text,
 	},
 	centerContainer: {
 		justifyContent: 'center',
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 	continueButtonText: {
 		color: 'white',
 		fontWeight: 'bold',
-		fontSize: 18
+		fontSize: 18,
 	},
 	startButton: {
 		backgroundColor: AppTheme.colors.primary,
@@ -66,35 +66,37 @@ const styles = StyleSheet.create({
 		fontSize: 38,
 		fontWeight: 'bold',
 		textAlign: 'center',
-		textTransform: 'uppercase'
+		textTransform: 'uppercase',
 	},
 	text: {
 		color: 'white',
 		fontSize: 18,
-		textAlign: 'justify'
+		textAlign: 'justify',
 	},
 	textParagraph: {
 		color: 'white',
 		fontSize: 18,
 		marginTop: 20,
-		textAlign: 'justify'
+		textAlign: 'justify',
 	},
 	title: {
 		color: 'white',
 		fontSize: 18,
 		fontWeight: 'bold',
 		textAlign: 'center',
-		marginBottom: 5
+		marginBottom: 5,
 	},
 	segmentedControl: {
 		marginTop: 5,
 		height: 35,
 		borderColor: AppTheme.colors.primary,
 		borderWidth: 1,
-		backgroundColor: AppTheme.colors.background
+		backgroundColor: AppTheme.colors.background,
 	},
-	segmentedControlContainer: {
+	middlePanel: {
 		alignItems: 'stretch',
+		justifyContent: 'space-evenly',
+		flex: 1,
 	},
 });
 export default styles;

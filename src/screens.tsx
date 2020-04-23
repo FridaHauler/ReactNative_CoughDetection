@@ -11,10 +11,10 @@ import {init as deviceInfoInit} from './deviceInfo';
 // screens
 import Loading from './screens/Loading';
 import Home from './screens/Home';
-import Actions from "./screens/Actions";
-import MetaInformation from "./screens/MetaInformation";
-import StartRecording from "./screens/StartRecording";
-import Recording from "./screens/Recording";
+import Actions from './screens/Actions';
+import MetaInformation from './screens/MetaInformation';
+import StartRecording from './screens/StartRecording';
+import Recording from './screens/Recording';
 
 export type StackNavigationProps = {
 	route: any;
@@ -50,7 +50,11 @@ export default function Screens() {
 				<Stack.Screen name="Actions" component={Actions} options={{title: 'Actions'}} />
 				<Stack.Screen name="MetaInformation" component={MetaInformation} options={{title: 'Information'}} />
 				<Stack.Screen name="StartRecording" component={StartRecording} options={{title: 'Start Recording'}} />
-				<Stack.Screen name="Recording" component={Recording} options={{title: '', headerShown: false, gestureEnabled: false}} />
+				<Stack.Screen
+					name="Recording"
+					component={Recording}
+					options={{title: '', headerShown: false, gestureEnabled: false}}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {AppDisplayName, AppTheme} from '../utils';
-import styles from "../styles";
+import {View, Text, Image} from 'react-native';
+import {AppDisplayName} from '../utils';
+import styles from '../styles';
 
 const Loading = () => {
 	return (

@@ -1,18 +1,18 @@
 import React from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
-import {observer} from "mobx-react-lite";
-import {StackNavigationProps} from "../screens";
-import Model from "../model/Model";
-import styles from "../styles";
-import {AppTheme} from "../utils";
+import {observer} from 'mobx-react-lite';
+import {StackNavigationProps} from '../screens';
+import Model from '../model/Model';
+import styles from '../styles';
+import {AppTheme} from '../utils';
 
 const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.title}>Please define meta information</Text>
 
-			<View style={{alignItems: "stretch", justifyContent: "space-evenly", flex: 1}}>
+			<View style={styles.middlePanel}>
 				<View>
 					<Text style={styles.title}>Position</Text>
 					<SegmentedControl
@@ -54,8 +54,11 @@ const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 				</View>
 			</View>
 
-
-			<TouchableOpacity style={styles.continueButton} onPress={() => {navigation.navigate('StartRecording');}}>
+			<TouchableOpacity
+				style={styles.continueButton}
+				onPress={() => {
+					navigation.navigate('StartRecording');
+				}}>
 				<Text style={styles.continueButtonText}>Continue</Text>
 			</TouchableOpacity>
 		</SafeAreaView>

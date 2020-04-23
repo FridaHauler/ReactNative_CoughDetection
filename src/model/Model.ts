@@ -1,8 +1,14 @@
 import {observable} from 'mobx';
-class action {
+
+class Action {
 	startTime: number = 0;
-	title: string | null = null;
+	@observable selectedAction: string | null = null;
+
+	constructor(start: number) {
+		this.startTime = start;
+	}
 }
+
 class Model {
 	@observable selectedPosition = 0;
 	positions = ['sitting', 'standing'];
@@ -11,10 +17,7 @@ class Model {
 	@observable selectedTalking = 0;
 	talking = ['yes', 'no'];
 
-
+	selectableActions = ['Single cough', 'Short laughing', 'Multiple coughs', 'Clear throat'];
+	@observable actions = [new Action(10), new Action(20), new Action(30), new Action(40), new Action(50)];
 }
 export default new Model();
-
-
-
-
