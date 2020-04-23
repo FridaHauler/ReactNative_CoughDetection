@@ -10,7 +10,9 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "xcode": "open ios/CoughRecording.xcworkspace/"
+    "xcode": "open ios/CoughRecording.xcworkspace/",
+    "generateIcons": "yarn add @bam.tech/react-native-make && react-native set-icon --path src/assets/logo.png ---background \"#4b4c50\" && yarn remove @bam.tech/react-native-make",
+    "generateSplash": "yarn add @bam.tech/react-native-make && react-native set-splash --path src/assets/logo-transparent.png --resize center --background \"#4b4c50\" --platform ios && yarn remove @bam.tech/react-native-make"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
