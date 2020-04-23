@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
 		backgroundColor: AppTheme.colors.background,
 	},
 	splashImage: {
-		width: 300,
-		height: 300,
+		width: 250,
+		height: 250,
 	},
 	appName: {
 		marginTop: 40,
