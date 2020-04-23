@@ -5,12 +5,16 @@ import {createStackNavigator, StackNavigationProp} from '@react-navigation/stack
 import {AppDisplayName, AppTheme} from './utils';
 
 // async inits
-import {getRemoteSettingAsNumber, init as remoteSettingsInit} from './remoteSettings';
+import {init as remoteSettingsInit} from './remoteSettings';
 import {init as deviceInfoInit} from './deviceInfo';
 
 // screens
 import Loading from './screens/Loading';
-import App from './screens/App';
+import Home from './screens/Home';
+import Actions from "./screens/Actions";
+import MetaInformation from "./screens/MetaInformation";
+import StartRecording from "./screens/StartRecording";
+import Recording from "./screens/Recording";
 
 export type StackNavigationProps = {
 	route: any;
@@ -19,7 +23,6 @@ export type StackNavigationProps = {
 
 let shouldInitialize = true;
 
-// https://stackoverflow.com/questions/55846641/react-hook-usestate-is-called-in-function-app-which-is-neither-a-react-funct
 export default function Screens() {
 	const [isReady, setReady] = useState(false);
 
@@ -29,8 +32,6 @@ export default function Screens() {
 			// async initialization
 			await remoteSettingsInit();
 			await deviceInfoInit();
-
-			console.log(getRemoteSettingAsNumber('test123'));
 
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 			setReady(true);
@@ -45,7 +46,11 @@ export default function Screens() {
 	return (
 		<NavigationContainer theme={AppTheme}>
 			<Stack.Navigator headerMode="screen">
-				<Stack.Screen name="App" component={App} options={{title: AppDisplayName}} />
+				<Stack.Screen name="Home" component={Home} options={{title: AppDisplayName}} />
+				<Stack.Screen name="Actions" component={Actions} options={{title: 'Actions'}} />
+				<Stack.Screen name="MetaInformation" component={MetaInformation} options={{title: 'Information'}} />
+				<Stack.Screen name="StartRecording" component={StartRecording} options={{title: 'Start Recording'}} />
+				<Stack.Screen name="Recording" component={Recording} options={{title: '', headerShown: false, gestureEnabled: false}} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

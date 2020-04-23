@@ -14,11 +14,16 @@
     "generateIcons": "yarn add @bam.tech/react-native-make && react-native set-icon --path src/assets/logo.png --background \"#4b4c50\" && yarn remove @bam.tech/react-native-make"
   },
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/segmented-control": "^1.4.0",
     "@react-native-firebase/app": "^6.7.1",
     "@react-native-firebase/remote-config": "^6.7.1",
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.13",
+    "jsc-android": "^241213.1.0",
+    "mobx": "^5.15.4",
+    "mobx-react-lite": "^2.0.6",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-device-info": "^5.5.5",
