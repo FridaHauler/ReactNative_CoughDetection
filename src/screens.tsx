@@ -2,30 +2,19 @@ import 'react-native-gesture-handler';
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, StackNavigationProp} from '@react-navigation/stack';
-import deviceInfo, {init as deviceInfoInit} from './deviceInfo';
+import {AppDisplayName, AppTheme} from './utils';
 
 // async inits
 import {getRemoteSettingAsNumber, init as remoteSettingsInit} from './remoteSettings';
+import {init as deviceInfoInit} from './deviceInfo';
 
 // screens
 import Loading from './screens/Loading';
 import App from './screens/App';
-import {Theme} from '@react-navigation/native/lib/typescript/src/types';
 
 export type StackNavigationProps = {
 	route: any;
 	navigation: StackNavigationProp<any>;
-};
-
-export const AppTheme: Theme = {
-	dark: true,
-	colors: {
-		primary: 'rgb(234, 35, 105)',
-		background: 'rgb(75, 76, 80)',
-		card: 'rgb(75, 76, 80)',
-		text: 'rgb(255, 255, 255)',
-		border: 'rgb(199, 199, 204)',
-	},
 };
 
 let shouldInitialize = true;
@@ -56,7 +45,7 @@ export default function Screens() {
 	return (
 		<NavigationContainer theme={AppTheme}>
 			<Stack.Navigator headerMode="screen">
-				<Stack.Screen name="App" component={App} options={{title: deviceInfo.applicationName}} />
+				<Stack.Screen name="App" component={App} options={{title: AppDisplayName}} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

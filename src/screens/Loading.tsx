@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import {AppTheme} from '../screens';
+import {AppDisplayName, AppTheme} from '../utils';
 
 const styles = StyleSheet.create({
 	container: {
@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
 		backgroundColor: AppTheme.colors.background,
 	},
 	splashImage: {
-		width: 200,
-		height: 200,
+		width: 300,
+		height: 300,
 	},
 	appName: {
 		marginTop: 40,
@@ -26,8 +26,12 @@ const Loading = () => {
 	return (
 		<>
 			<View style={styles.container}>
-				<Image accessibilityRole={'image'} source={require('../assets/splash.png')} style={styles.splashImage} />
-				<Text style={styles.appName}>{require('../../app.json').displayName}</Text>
+				<Image
+					accessibilityRole={'image'}
+					source={require('../assets/logo-transparent.png')}
+					style={styles.splashImage}
+				/>
+				<Text style={styles.appName}>{AppDisplayName}</Text>
 			</View>
 		</>
 	);
