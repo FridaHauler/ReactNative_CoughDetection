@@ -48,4 +48,4 @@ Open xCode with `yarn xcode` and rebuild the project. After, archive and `Distri
 
 ### Android
 Configure `android/app/build.gradle` android -> release section to contain the datastore `storeFile` and `storePassword` and the Key `keyAlias` and `keyPassword`
-Open in Android Studio `android` folder, and change the `Build Variants` to `release`. Then on the `Build` menu select `Build Bundle(s) / APK(s)` and choose the one needed (`apk` for Firebase or email distribution, `Build Bundle` for the Play Store)
+Open in Android Studio `android` folder, and change the `Build Variants` to `release`. Then on the `Build` menu select `Build Bundle(s) / APK(s)` and choose the one needed (`apk` for Firebase or link distribution, `Build Bundle` for the Play Store)
