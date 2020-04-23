@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 		color: AppTheme.colors.text,
 	},
 	container: {
+		marginHorizontal: 20,
 		paddingVertical: 30,
-		paddingHorizontal: 20,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		height: '100%',
