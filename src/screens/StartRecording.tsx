@@ -1,11 +1,11 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 
 const StartRecording = ({navigation}: StackNavigationProps) => {
 	return (
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<View>
 				<Text style={styles.title}>Please start the recording</Text>
 				<TouchableOpacity
@@ -31,7 +31,7 @@ const StartRecording = ({navigation}: StackNavigationProps) => {
 				The recoding will start with a 5 sec delay after you press the start bottom to allow for placement of your
 				mobile in your pocket/jacket.
 			</Text>
-		</SafeAreaView>
+		</View>
 	);
 };
 export default StartRecording;

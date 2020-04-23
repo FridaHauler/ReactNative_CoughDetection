@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
 import {observer} from 'mobx-react-lite';
 import {StackNavigationProps} from '../screens';
@@ -9,7 +9,7 @@ import {AppTheme} from '../utils';
 
 const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 	return (
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<Text style={styles.title}>Please define meta information</Text>
 
 			<View style={styles.middlePanel}>
@@ -20,6 +20,7 @@ const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 						selectedIndex={Model.selectedPosition}
 						tintColor={AppTheme.colors.primary}
 						textColor={AppTheme.colors.text}
+						activeTextColor={AppTheme.colors.text}
 						style={styles.segmentedControl}
 						onChange={(event) => {
 							Model.selectedPosition = event.nativeEvent.selectedSegmentIndex;
@@ -33,6 +34,7 @@ const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 						selectedIndex={Model.selectedLocation}
 						tintColor={AppTheme.colors.primary}
 						textColor={AppTheme.colors.text}
+						activeTextColor={AppTheme.colors.text}
 						style={styles.segmentedControl}
 						onChange={(event) => {
 							Model.selectedLocation = event.nativeEvent.selectedSegmentIndex;
@@ -46,6 +48,7 @@ const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 						selectedIndex={Model.selectedTalking}
 						tintColor={AppTheme.colors.primary}
 						textColor={AppTheme.colors.text}
+						activeTextColor={AppTheme.colors.text}
 						style={styles.segmentedControl}
 						onChange={(event) => {
 							Model.selectedTalking = event.nativeEvent.selectedSegmentIndex;
@@ -61,7 +64,7 @@ const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 				}}>
 				<Text style={styles.continueButtonText}>Continue</Text>
 			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 });
 export default MetaInformation;

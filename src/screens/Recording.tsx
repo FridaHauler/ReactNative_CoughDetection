@@ -1,11 +1,11 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 
 const Recording = ({navigation}: StackNavigationProps) => {
 	return (
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<View>
 				<Text style={styles.title}>Recording in progress</Text>
 			</View>
@@ -24,7 +24,7 @@ const Recording = ({navigation}: StackNavigationProps) => {
 				}}>
 				<Text style={styles.continueButtonText}>Done</Text>
 			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 };
 export default Recording;

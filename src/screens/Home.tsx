@@ -1,11 +1,11 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 
 const Home = ({navigation}: StackNavigationProps) => {
 	return (
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<View>
 				<Text style={styles.text}>Dear Data Donator,</Text>
 				<Text style={styles.textParagraph}>Many thanks for participating in our data collection.</Text>
@@ -31,7 +31,7 @@ const Home = ({navigation}: StackNavigationProps) => {
 				}}>
 				<Text style={styles.continueButtonText}>Continue</Text>
 			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 };
 export default Home;

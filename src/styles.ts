@@ -20,8 +20,9 @@ const styles = StyleSheet.create({
 		color: AppTheme.colors.text,
 	},
 	container: {
-		marginHorizontal: 20,
-		paddingVertical: 30,
+		paddingHorizontal: 20,
+		paddingTop: 30,
+		paddingBottom: 40,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		height: '100%',
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 	segmentedControl: {
+		color: AppTheme.colors.text,
 		marginTop: 5,
 		height: 35,
 		borderColor: AppTheme.colors.primary,
