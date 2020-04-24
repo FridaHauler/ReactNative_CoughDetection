@@ -8,6 +8,7 @@ import {AppTheme} from './styles';
 // async inits
 import {init as remoteSettingsInit} from './remoteSettings';
 import {init as deviceInfoInit} from './deviceInfo';
+import Model from "./model/Model";
 
 // screens
 import Loading from './screens/Loading';
@@ -17,6 +18,7 @@ import MetaInformation from './screens/MetaInformation';
 import StartRecording from './screens/StartRecording';
 import Recording from './screens/Recording';
 import ActionsSelector from './screens/ActionsSelector';
+import {acquireRecordPermissions} from './permissions';
 
 export type StackNavigationProps = {
 	route: any;
@@ -34,6 +36,9 @@ export default function Screens() {
 			// async initialization
 			await remoteSettingsInit();
 			await deviceInfoInit();
+
+			await acquireRecordPermissions();
+			await Model.init();
 
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 			setReady(true);

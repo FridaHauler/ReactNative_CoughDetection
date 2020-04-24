@@ -39,7 +39,7 @@ const Actions = observer(({navigation}: StackNavigationProps) => {
 				})}
 
 				<View style={styles.selectorItemsContainer}>
-					<Text style={styles.selectorTimeText}>60 sec</Text>
+					<Text style={styles.selectorTimeText}>{Model.maxRecordingTime} sec</Text>
 					<Image style={styles.selectorTimeImage} source={require('../assets/icons/timeline-clock-outline.png')} />
 					<Text style={styles.selectorText}>AUTOMATIC STOP</Text>
 				</View>

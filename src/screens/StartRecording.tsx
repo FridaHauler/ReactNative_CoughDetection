@@ -2,6 +2,7 @@ import React from 'react';
 import {StackNavigationProps} from '../screens';
 import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
+import Model from '../model/Model';
 
 const StartRecording = ({navigation}: StackNavigationProps) => {
 	return (
@@ -20,7 +21,8 @@ const StartRecording = ({navigation}: StackNavigationProps) => {
 			<View style={styles.centerContainer}>
 				<TouchableOpacity
 					style={styles.startButton}
-					onPress={() => {
+					onPress={async () => {
+						await Model.startRecording();
 						navigation.navigate('Recording');
 					}}>
 					<Text style={styles.startText}>Start</Text>

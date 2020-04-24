@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 15,
 	},
 	continueButtonDisabled: {
-		backgroundColor: 'darkgray',
+		backgroundColor: AppTheme.colors.background,
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderWidth: 1,
@@ -206,6 +206,38 @@ const styles = StyleSheet.create({
 		alignItems: 'stretch',
 		justifyContent: 'space-evenly',
 		flex: 1,
+	},
+	recordingText: {
+		color: AppTheme.colors.text,
+		fontSize: 18,
+		fontWeight: 'bold',
+		textAlign: 'center',
+	},
+	totalTime: {
+		color: AppTheme.colors.text,
+		fontSize: 86,
+		fontWeight: 'bold',
+		textAlign: 'center',
+	},
+	secondaryTime: {
+		color: AppTheme.colors.text,
+		fontSize: 62,
+		fontWeight: 'bold',
+		textAlign: 'center',
+	},
+	recordingStatusContainer: {
+		borderWidth: 6,
+		borderColor: AppTheme.colors.primary,
+		borderRadius: 20,
+		paddingHorizontal: 15,
+		paddingVertical: 15,
+		marginVertical: 20,
+	},
+	recordingStatusText: {
+		color: AppTheme.colors.text,
+		fontSize: 42,
+		fontWeight: 'bold',
+		textAlign: 'center',
 	},
 });
 export default styles;
