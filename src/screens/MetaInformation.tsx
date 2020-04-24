@@ -4,8 +4,7 @@ import SegmentedControl from '@react-native-community/segmented-control';
 import {observer} from 'mobx-react-lite';
 import {StackNavigationProps} from '../screens';
 import Model from '../model/Model';
-import styles from '../styles';
-import {AppTheme} from '../utils';
+import styles, {AppTheme} from '../styles';
 
 const MetaInformation = observer(({navigation}: StackNavigationProps) => {
 	return (

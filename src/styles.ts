@@ -1,5 +1,16 @@
 import {StyleSheet} from 'react-native';
-import {AppTheme} from './utils';
+import {Theme} from '@react-navigation/native/lib/typescript/src/types';
+
+export const AppTheme: Theme = {
+	dark: true,
+	colors: {
+		primary: 'rgb(234, 35, 105)',
+		background: 'rgb(75, 76, 80)',
+		card: 'rgb(75, 76, 80)',
+		text: 'rgb(255, 255, 255)',
+		border: 'rgb(199, 199, 204)',
+	},
+};
 
 const styles = StyleSheet.create({
 	loadingContainer: {
@@ -33,6 +44,89 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	selectorItemsContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+	},
+	selectorContainer: {
+		paddingHorizontal: 10,
+		paddingTop: 10,
+		paddingBottom: 40,
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		height: '100%',
+		backgroundColor: AppTheme.colors.background,
+		color: AppTheme.colors.text,
+	},
+	selectorTimeText: {
+		color: AppTheme.colors.text,
+		fontSize: 18,
+		fontWeight: 'bold',
+		textAlign: 'right',
+		width: 65,
+	},
+	selectorTimeImage: {
+		width: 30,
+		height: 30,
+		marginHorizontal: 20,
+	},
+	selectorButton: {
+		backgroundColor: AppTheme.colors.background,
+		flexDirection: 'row',
+		borderWidth: 0.8,
+		borderColor: AppTheme.colors.primary,
+		borderRadius: 10,
+		paddingVertical: 8,
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		flex: 1,
+	},
+	selectorButtonImage: {
+		width: 30,
+		height: 30,
+		marginHorizontal: 5,
+	},
+	selectorButtonText: {
+		color: AppTheme.colors.text,
+		fontSize: 17,
+		textAlign: 'right',
+	},
+	selectorButtonTextDisabled: {
+		color: 'darkgray',
+		fontSize: 14,
+		textAlign: 'right',
+	},
+	selectorText: {
+		color: AppTheme.colors.text,
+		fontWeight: 'bold',
+		fontSize: 18,
+		flex: 1,
+		textAlign: 'center',
+	},
+	selectorItems: {
+		backgroundColor: AppTheme.colors.background,
+		flexDirection: 'row',
+		alignItems: 'stretch',
+		paddingVertical: 20,
+		paddingHorizontal: 10,
+		justifyContent: 'space-between',
+	},
+	selectorItemText: {
+		color: AppTheme.colors.text,
+		fontSize: 16,
+		fontWeight: 'bold',
+		textAlign: 'left',
+		marginLeft: 10,
+	},
+	selectorItemImage: {
+		width: 20,
+		height: 20,
+	},
+	selectorItemTopRuler: {
+		borderTopColor: AppTheme.colors.primary,
+		borderTopWidth: 0.8,
+	},
 	continueButton: {
 		backgroundColor: AppTheme.colors.primary,
 		flexDirection: 'row',
@@ -46,8 +140,21 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 		marginHorizontal: 15,
 	},
+	continueButtonDisabled: {
+		backgroundColor: 'darkgray',
+		flexDirection: 'row',
+		alignItems: 'center',
+		borderWidth: 1,
+		borderColor: 'lightgray',
+		borderRadius: 10,
+		paddingVertical: 12,
+		paddingHorizontal: 12,
+		justifyContent: 'center',
+		marginVertical: 15,
+		marginHorizontal: 15,
+	},
 	continueButtonText: {
-		color: 'white',
+		color: AppTheme.colors.text,
 		fontWeight: 'bold',
 		fontSize: 18,
 	},
@@ -63,25 +170,25 @@ const styles = StyleSheet.create({
 		width: 200,
 	},
 	startText: {
-		color: 'white',
+		color: AppTheme.colors.text,
 		fontSize: 38,
 		fontWeight: 'bold',
 		textAlign: 'center',
 		textTransform: 'uppercase',
 	},
 	text: {
-		color: 'white',
+		color: AppTheme.colors.text,
 		fontSize: 18,
 		textAlign: 'justify',
 	},
 	textParagraph: {
-		color: 'white',
+		color: AppTheme.colors.text,
 		fontSize: 18,
 		marginTop: 20,
 		textAlign: 'justify',
 	},
 	title: {
-		color: 'white',
+		color: AppTheme.colors.text,
 		fontSize: 18,
 		fontWeight: 'bold',
 		textAlign: 'center',
@@ -91,8 +198,8 @@ const styles = StyleSheet.create({
 		color: AppTheme.colors.text,
 		marginTop: 5,
 		height: 35,
-		borderColor: AppTheme.colors.primary,
-		borderWidth: 1,
+		borderColor: AppTheme.colors.text,
+		borderWidth: 0.8,
 		backgroundColor: AppTheme.colors.background,
 	},
 	middlePanel: {

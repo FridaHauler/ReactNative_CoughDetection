@@ -2,7 +2,8 @@ import 'react-native-gesture-handler';
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, StackNavigationProp} from '@react-navigation/stack';
-import {AppDisplayName, AppTheme} from './utils';
+import {AppDisplayName} from './utils';
+import {AppTheme} from './styles';
 
 // async inits
 import {init as remoteSettingsInit} from './remoteSettings';
@@ -15,6 +16,7 @@ import Actions from './screens/Actions';
 import MetaInformation from './screens/MetaInformation';
 import StartRecording from './screens/StartRecording';
 import Recording from './screens/Recording';
+import ActionsSelector from './screens/ActionsSelector';
 
 export type StackNavigationProps = {
 	route: any;
@@ -48,6 +50,7 @@ export default function Screens() {
 			<Stack.Navigator headerMode="screen">
 				<Stack.Screen name="Home" component={Home} options={{title: AppDisplayName}} />
 				<Stack.Screen name="Actions" component={Actions} options={{title: 'Actions'}} />
+				<Stack.Screen name="ActionsSelector" component={ActionsSelector} options={{title: 'Select one'}} />
 				<Stack.Screen name="MetaInformation" component={MetaInformation} options={{title: 'Information'}} />
 				<Stack.Screen name="StartRecording" component={StartRecording} options={{title: 'Start Recording'}} />
 				<Stack.Screen
