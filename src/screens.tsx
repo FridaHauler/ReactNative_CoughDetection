@@ -8,7 +8,7 @@ import {AppTheme} from './styles';
 // async inits
 import {init as remoteSettingsInit} from './remoteSettings';
 import {init as deviceInfoInit} from './deviceInfo';
-import Model from "./model/Model";
+import Model from './model/Model';
 
 // screens
 import Loading from './screens/Loading';

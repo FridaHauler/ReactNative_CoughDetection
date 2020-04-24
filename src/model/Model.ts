@@ -1,7 +1,7 @@
 import {computed, observable} from 'mobx';
 import {dateTimeNow} from '../utils';
 import AudioRecord from 'react-native-audio-record';
-import {getRemoteSettingAsNumber} from "../remoteSettings";
+import {getRemoteSettingAsNumber} from '../remoteSettings';
 
 export class Action {
 	triggerStart: number = 0;
@@ -48,7 +48,8 @@ class Model {
 	recorderGyro = {};
 
 	async init() {
-		const options = { //
+		const options = {
+			//
 			sampleRate: getRemoteSettingAsNumber('sampleRate'), // default 44100
 			channels: getRemoteSettingAsNumber('channel'), // 1 or 2, default 1
 			bitsPerSample: getRemoteSettingAsNumber('bitsPerSample'), // 8 or 16, default 16

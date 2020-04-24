@@ -10,7 +10,7 @@ export async function init() {
 		sampleRate: 16000,
 		channels: 1,
 		bitsPerSample: 16,
-		audioSource: 1
+		audioSource: 1,
 	});
 	await remoteConfig().setConfigSettings({
 		minimumFetchInterval: 300, // 5 min
