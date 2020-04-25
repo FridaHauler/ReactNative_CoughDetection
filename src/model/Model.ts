@@ -3,6 +3,7 @@ import {dateTimeNow} from '../utils';
 import AudioRecord from 'react-native-audio-record';
 import {getRemoteSettingAsNumber} from '../remoteSettings';
 import {accelerometer, gyroscope, magnetometer, SensorTypes, setUpdateIntervalForType} from 'react-native-sensors';
+import {Buffer} from 'buffer';
 
 export class Action {
 	triggerStart: number = 0;
@@ -52,7 +53,7 @@ class Model {
 		return null;
 	}
 
-	recordedAudio: string | undefined;
+	collectedAudio: Buffer | undefined;
 	gyroscopeSubscription: any;
 	recordedGyroscope: SensorData[] = [];
 	accelerometerSubscription: any;
@@ -79,7 +80,7 @@ class Model {
 			this.actions = this.actions.concat(new Action(getRemoteSettingAsNumber('actionEvery') * x));
 		}
 
-		AudioRecord.init(options);
+		await AudioRecord.init(options);
 
 		setUpdateIntervalForType(SensorTypes.accelerometer, getRemoteSettingAsNumber('accelerometerInterval'));
 		setUpdateIntervalForType(SensorTypes.gyroscope, getRemoteSettingAsNumber('gyroscopeInterval'));
@@ -106,7 +107,13 @@ class Model {
 		this.stopRecordingTimestamp = 0;
 		this.startRecordingTimestamp = dateTimeNow();
 		AudioRecord.on('data', (data) => {
-			this.recordedAudio += data;
+			const buffer = Buffer.from(data, 'base64');
+			if (!this.collectedAudio) {
+				this.collectedAudio = buffer;
+			} else {
+				this.collectedAudio = Buffer.concat([this.collectedAudio, buffer]);
+			}
+			console.log('chunk size', this.collectedAudio.byteLength);
 		});
 		this.accelerometerSubscription = accelerometer.subscribe(
 			({x, y, z, timestamp}) => this.recordedAccelerometer.push({x, y, z, timestamp}),
@@ -132,17 +139,16 @@ class Model {
 		}
 		this.stopRecordingTimestamp = dateTimeNow();
 		const file = await AudioRecord.stop();
-		console.log(file);
-		console.log(this.recordedAccelerometer);
-		console.log(this.recordedGyroscope);
-		console.log(this.recordedMagnetometer);
+		console.log('File:', file);
+		console.log('Accelerometer:', this.recordedAccelerometer);
+		console.log('Base64:', this.collectedAudio?.toString('base64'));
 	}
 
 	clean() {
 		this.recordedAccelerometer = [];
 		this.recordedMagnetometer = [];
 		this.recordedGyroscope = [];
-		this.recordedAudio = undefined;
+		this.collectedAudio = undefined;
 	}
 }
 export default new Model();

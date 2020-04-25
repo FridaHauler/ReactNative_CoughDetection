@@ -17,7 +17,7 @@ const Home = ({navigation}: StackNavigationProps) => {
 				<Text style={styles.text}>
 					You will be asked to define the {Model.totalActions} actions, you will perform during the recoding.
 				</Text>
-				<Text style={styles.textParagraph}>
+				<Text style={styles.text}>
 					In addition, you will be asked to for some additional information about your position (sitting vs. standing),
 					the location of your smart phone (trouser pocket vs. jacket pocket) and if you are going to be quiet between
 					actions or if you are talking.
