@@ -45,6 +45,10 @@ def flipper_post_install(installer)
 end
 
 target 'CoughRecording' do
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
+  pod 'Permission-Motion', :path => "#{permissions_path}/Motion.podspec"
+
   # Pods for CoughRecording
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
