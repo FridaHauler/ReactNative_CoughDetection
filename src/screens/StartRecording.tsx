@@ -9,20 +9,20 @@ const StartRecording = ({navigation}: StackNavigationProps) => {
 		<View style={styles.container}>
 			<View>
 				<Text style={styles.title}>Please start the recording</Text>
-				<TouchableOpacity
+				{/*<TouchableOpacity
 					style={styles.continueButton}
 					onPress={() => {
 						navigation.navigate('Home');
 					}}>
 					<Text style={styles.continueButtonText}>Mirror Screen</Text>
-				</TouchableOpacity>
+				</TouchableOpacity>*/}
 			</View>
 
 			<View style={styles.centerContainer}>
 				<TouchableOpacity
 					style={styles.startButton}
 					onPress={async () => {
-						await Model.startRecording();
+						await Model.scheduleStart();
 						navigation.navigate('Recording');
 					}}>
 					<Text style={styles.startText}>Start</Text>

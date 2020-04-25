@@ -2,6 +2,7 @@ import {computed, observable} from 'mobx';
 import {dateTimeNow} from '../utils';
 import AudioRecord from 'react-native-audio-record';
 import {getRemoteSettingAsNumber} from '../remoteSettings';
+import {accelerometer, gyroscope, magnetometer, SensorTypes, setUpdateIntervalForType} from 'react-native-sensors';
 
 export class Action {
 	triggerStart: number = 0;
@@ -10,6 +11,13 @@ export class Action {
 	constructor(start: number) {
 		this.triggerStart = start;
 	}
+}
+
+interface SensorData {
+	x: number;
+	y: number;
+	z: number;
+	timestamp: string;
 }
 
 class Model {
@@ -30,7 +38,7 @@ class Model {
 	@observable startRecordingTimestamp = 0;
 	@observable stopRecordingTimestamp = 0;
 
-	recordingTimer: number | undefined = undefined;
+	recordingTimer: number | undefined;
 	@observable recordingSeconds = 0;
 	@computed get nextAction(): Action | null {
 		if (this.recordingSeconds < 0) {
@@ -44,8 +52,13 @@ class Model {
 		return null;
 	}
 
-	recordedAudio: string | null = null;
-	recorderGyro = {};
+	recordedAudio: string | undefined;
+	gyroscopeSubscription: any;
+	recordedGyroscope: SensorData[] = [];
+	accelerometerSubscription: any;
+	recordedAccelerometer: SensorData[] = [];
+	magnetometerSubscription: any;
+	recordedMagnetometer: SensorData[] = [];
 
 	async init() {
 		const options = {
@@ -56,7 +69,6 @@ class Model {
 			audioSource: getRemoteSettingAsNumber('audioSource'), // android only
 			wavFile: 'recoding.wav', // default 'audio.wav'
 		};
-		AudioRecord.init(options);
 
 		this.startRecordingIn = getRemoteSettingAsNumber('startRecordingIn');
 		this.maxRecordingTime = getRemoteSettingAsNumber('totalRecordingTime');
@@ -66,35 +78,71 @@ class Model {
 		for (let x = 1; x <= getRemoteSettingAsNumber('totalActions'); x++) {
 			this.actions = this.actions.concat(new Action(getRemoteSettingAsNumber('actionEvery') * x));
 		}
+
+		AudioRecord.init(options);
+
+		setUpdateIntervalForType(SensorTypes.accelerometer, getRemoteSettingAsNumber('accelerometerInterval'));
+		setUpdateIntervalForType(SensorTypes.gyroscope, getRemoteSettingAsNumber('gyroscopeInterval'));
+		setUpdateIntervalForType(SensorTypes.magnetometer, getRemoteSettingAsNumber('magnetometerInterval'));
 	}
 
-	async startRecording() {
+	scheduleStart() {
 		if (this.recordingTimer) {
 			clearInterval(this.recordingTimer);
 		}
 		this.recordingSeconds = this.startRecordingIn;
-		this.recordingTimer = setInterval(() => {
+		this.recordingTimer = setInterval(async () => {
 			this.recordingSeconds++;
 			if (this.recordingSeconds === 0) {
-				this.stopRecordingTimestamp = 0;
-				this.startRecordingTimestamp = dateTimeNow();
-				AudioRecord.on('data', (data) => {
-					this.recordedAudio += data;
-				});
-				AudioRecord.start();
+				await this.startRecording();
 			}
 			if (this.recordingSeconds >= this.maxRecordingTime) {
-				this.stopRecording();
+				await this.stopRecording();
 			}
 		}, 1000);
 	}
+
+	private startRecording() {
+		this.stopRecordingTimestamp = 0;
+		this.startRecordingTimestamp = dateTimeNow();
+		AudioRecord.on('data', (data) => {
+			this.recordedAudio += data;
+		});
+		this.accelerometerSubscription = accelerometer.subscribe(
+			({x, y, z, timestamp}) => this.recordedAccelerometer.push({x, y, z, timestamp}),
+			(error) => console.log(error),
+		);
+		this.gyroscopeSubscription = gyroscope.subscribe(
+			({x, y, z, timestamp}) => this.recordedGyroscope.push({x, y, z, timestamp}),
+			(error) => console.log(error),
+		);
+		this.magnetometerSubscription = magnetometer.subscribe(
+			({x, y, z, timestamp}) => this.recordedMagnetometer.push({x, y, z, timestamp}),
+			(error) => console.log(error),
+		);
+		AudioRecord.start();
+	}
 	async stopRecording() {
+		this.accelerometerSubscription.unsubscribe();
+		this.gyroscopeSubscription.unsubscribe();
+		this.magnetometerSubscription.unsubscribe();
+
 		if (this.recordingTimer) {
 			clearInterval(this.recordingTimer);
 		}
 		this.stopRecordingTimestamp = dateTimeNow();
 		const file = await AudioRecord.stop();
 		console.log(file);
+		console.log(this.recordedAccelerometer);
+		console.log(this.recordedGyroscope);
+		console.log(this.recordedMagnetometer);
+	}
+
+	clean() {
+		this.recordedAccelerometer = [];
+		this.recordedMagnetometer = [];
+		this.recordedGyroscope = [];
+		this.recordedAudio = undefined;
 	}
 }
 export default new Model();

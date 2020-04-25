@@ -11,6 +11,9 @@ export async function init() {
 		channels: 1,
 		bitsPerSample: 16,
 		audioSource: 1,
+		accelerometerInterval: 100,
+		gyroscopeInterval: 100,
+		magnetometerInterval: 100,
 	});
 	await remoteConfig().setConfigSettings({
 		minimumFetchInterval: 300, // 5 min

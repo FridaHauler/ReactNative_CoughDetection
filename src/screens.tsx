@@ -18,7 +18,7 @@ import MetaInformation from './screens/MetaInformation';
 import StartRecording from './screens/StartRecording';
 import Recording from './screens/Recording';
 import ActionsSelector from './screens/ActionsSelector';
-import {acquireRecordPermissions} from './permissions';
+import {acquireMotionPermissions, acquireRecordPermissions} from './permissions';
 
 export type StackNavigationProps = {
 	route: any;
@@ -38,6 +38,8 @@ export default function Screens() {
 			await deviceInfoInit();
 
 			await acquireRecordPermissions();
+			await acquireMotionPermissions();
+
 			await Model.init();
 
 			await new Promise((resolve) => setTimeout(resolve, 1000));

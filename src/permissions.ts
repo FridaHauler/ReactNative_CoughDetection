@@ -20,3 +20,17 @@ export async function acquireRecordPermissions() {
 		console.log(`${logIdentifier} Error while requesting permissions`, e);
 	}
 }
+
+export async function acquireMotionPermissions() {
+	try {
+		let status;
+		if (isIOS) {
+			status = await requestPermission(PERMISSIONS.IOS.MOTION);
+		} else {
+			status = await requestPermission(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION);
+		}
+		console.log(`${logIdentifier} Motion permission was ${status}`);
+	} catch (e) {
+		console.log(`${logIdentifier} Error while requesting permissions`, e);
+	}
+}
