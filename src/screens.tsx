@@ -4,10 +4,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, StackNavigationProp} from '@react-navigation/stack';
 import {AppDisplayName} from './utils';
 import {AppTheme} from './styles';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 // async inits
 import {init as remoteSettingsInit} from './remoteSettings';
-import {init as deviceInfoInit} from './deviceInfo';
+import deviceInfo, {init as deviceInfoInit} from './deviceInfo';
 import Model from './model/Model';
 
 // screens
@@ -41,6 +43,13 @@ export default function Screens() {
 			await acquireMotionPermissions();
 
 			await Model.init();
+
+			await auth().signInAnonymously(); // sign in anonymously so that the db can be used
+
+			await firestore()
+				.collection('Devices')
+				.doc(deviceInfo.uniqueID)
+				.set(Object.assign({}, deviceInfo) as {[key: string]: any});
 
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 			setReady(true);

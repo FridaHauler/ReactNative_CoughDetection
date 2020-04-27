@@ -3,6 +3,7 @@ import {StackNavigationProps} from '../screens';
 import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 import Model from '../model/Model';
+import deviceInfo from '../deviceInfo';
 
 const Home = ({navigation}: StackNavigationProps) => {
 	return (
@@ -23,7 +24,7 @@ const Home = ({navigation}: StackNavigationProps) => {
 					actions or if you are talking.
 				</Text>
 				<Text style={styles.textParagraph}>
-					To trigger the actions, this app will allow you to mirror the screen to another monitor via Apple TV.
+					Your device unique identifier, persisted between installations, is {deviceInfo.uniqueID}
 				</Text>
 			</View>
 			<TouchableOpacity

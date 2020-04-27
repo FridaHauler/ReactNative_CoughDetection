@@ -3,8 +3,10 @@ import {dateTimeNow} from '../utils';
 import AudioRecord from 'react-native-audio-record';
 import {getRemoteSettingAsNumber} from '../remoteSettings';
 import {accelerometer, gyroscope, magnetometer, SensorTypes, setUpdateIntervalForType} from 'react-native-sensors';
-import {Buffer} from 'buffer';
 import Sound from 'react-native-sound';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import deviceInfo from '../deviceInfo';
 
 const logIdentifier = '+ [Model]';
 export class Action {
@@ -16,12 +18,12 @@ export class Action {
 	}
 }
 
-interface SensorData {
+type SensorData = {
 	x: number;
 	y: number;
 	z: number;
 	timestamp: string;
-}
+};
 
 class Model {
 	@observable selectedPosition = 0;
@@ -41,8 +43,8 @@ class Model {
 
 	@observable startRecordingTimestamp = 0;
 	@observable stopRecordingTimestamp = 0;
+	@observable isSendingData = false;
 
-	recordingTimer: number | undefined;
 	@observable recordingSeconds = 0;
 	@computed get nextAction(): Action | null {
 		if (this.recordingSeconds < 0) {
@@ -61,7 +63,7 @@ class Model {
 
 	@observable recordedAudioPath: string | undefined;
 	@observable recordedAudioSound: Sound | undefined;
-	collectedAudio: Buffer | undefined;
+	//collectedAudio: Buffer | undefined;
 	gyroscopeSubscription: any;
 	recordedGyroscope: SensorData[] = [];
 	accelerometerSubscription: any;
@@ -107,15 +109,6 @@ class Model {
 	}
 
 	async init() {
-		const options = {
-			//
-			sampleRate: getRemoteSettingAsNumber('sampleRate'), // default 44100
-			channels: getRemoteSettingAsNumber('channel'), // 1 or 2, default 1
-			bitsPerSample: getRemoteSettingAsNumber('bitsPerSample'), // 8 or 16, default 16
-			audioSource: getRemoteSettingAsNumber('audioSource'), // android only
-			wavFile: 'recoding.wav', // default 'audio.wav'
-		};
-
 		this.startRecordingIn = getRemoteSettingAsNumber('startRecordingIn');
 		this.maxRecordingTime = getRemoteSettingAsNumber('totalRecordingTime');
 		this.totalActions = getRemoteSettingAsNumber('totalActions');
@@ -126,7 +119,14 @@ class Model {
 			this.actions = this.actions.concat(new Action(getRemoteSettingAsNumber('actionEvery') * x));
 		}
 
-		await AudioRecord.init(options);
+		await AudioRecord.init({
+			sampleRate: getRemoteSettingAsNumber('sampleRate'), // default 44100
+			channels: getRemoteSettingAsNumber('channels'), // 1 or 2, default 1
+			bitsPerSample: getRemoteSettingAsNumber('bitsPerSample'), // 8 or 16, default 16
+			audioSource: getRemoteSettingAsNumber('audioSource'), // android only
+			wavFile: 'recoding.wav', // default 'audio.wav'
+		});
+		AudioRecord.on('data', this.handleAudioRecordingCallback.bind(this));
 
 		setUpdateIntervalForType(SensorTypes.accelerometer, getRemoteSettingAsNumber('accelerometerInterval'));
 		setUpdateIntervalForType(SensorTypes.gyroscope, getRemoteSettingAsNumber('gyroscopeInterval'));
@@ -137,17 +137,13 @@ class Model {
 	}
 
 	delayedStart() {
-		if (this.recordingTimer) {
-			clearInterval(this.recordingTimer);
-		}
 		this.recordingSeconds = this.startRecordingIn;
-
-		this.recordingTimer = setInterval(async () => {
+		const recordingTimer = setInterval(async () => {
 			this.recordingSeconds++;
 			await this.beep();
 			if (this.recordingSeconds === 0) {
-				if (this.recordingTimer) {
-					clearInterval(this.recordingTimer);
+				if (recordingTimer) {
+					clearInterval(recordingTimer);
 				}
 				await this.startRecording();
 			}
@@ -155,14 +151,13 @@ class Model {
 	}
 
 	private async handleAudioRecordingCallback(data: string) {
-		const buffer = Buffer.from(data, 'base64');
+		/*const buffer = Buffer.from(data, 'base64');
 		if (!this.collectedAudio) {
 			this.collectedAudio = buffer;
 		} else {
 			this.collectedAudio = Buffer.concat([this.collectedAudio, buffer]);
 		}
-		console.log(`${logIdentifier} chunk size`, this.collectedAudio.byteLength);
-
+		*/
 		// update time
 		this.recordingSeconds = dateTimeNow() - this.startRecordingTimestamp;
 		if (this.recordingSeconds >= this.maxRecordingTime) {
@@ -171,8 +166,9 @@ class Model {
 	}
 
 	private startRecording() {
-		this.stopRecordingTimestamp = 0;
+		this.clean();
 		this.startRecordingTimestamp = dateTimeNow();
+
 		this.accelerometerSubscription = accelerometer.subscribe(
 			({x, y, z, timestamp}) => this.recordedAccelerometer.push({x, y, z, timestamp}),
 			(error) => console.log(logIdentifier, error),
@@ -186,7 +182,6 @@ class Model {
 			(error) => console.log(logIdentifier, error),
 		);
 
-		AudioRecord.on('data', this.handleAudioRecordingCallback.bind(this));
 		AudioRecord.start();
 	}
 	async stopRecording() {
@@ -197,21 +192,57 @@ class Model {
 		this.gyroscopeSubscription.unsubscribe();
 		this.magnetometerSubscription.unsubscribe();
 
-		console.log(`${logIdentifier} File:`, this.recordedAudioPath);
-		console.log(`${logIdentifier} Accelerometer:`, this.recordedAccelerometer);
-		console.log(`${logIdentifier} Base64: ${this.collectedAudio?.toString('base64')}`);
-
 		this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath);
 
 		await this.beep();
 		await this.beep();
 	}
 
+	async sendData() {
+		const firestoreRef = await firestore()
+			.collection('Recording')
+			.add({
+				user: deviceInfo.uniqueID,
+				subjectPosition: this.positions[this.selectedPosition],
+				phonePosition: this.locations[this.selectedLocation],
+				talking: this.talking[this.selectedTalking],
+				accelerometer: this.recordedAccelerometer,
+				gyroscope: this.recordedGyroscope,
+				magnetometer: this.recordedMagnetometer,
+				actions: this.actions.map((x) => {
+					return {triggerStart: x.triggerStart, selectedAction: x.selectedAction};
+				}),
+				startTimestamp: this.startRecordingTimestamp,
+				stopTimestamp: this.stopRecordingTimestamp,
+				audioSampleRate: getRemoteSettingAsNumber('sampleRate'),
+				audioChannels: getRemoteSettingAsNumber('channels'),
+				audioBitsPerSample: getRemoteSettingAsNumber('bitsPerSample'),
+				audioAndroidSource: getRemoteSettingAsNumber('audioSource'),
+				audioDuration: this.recordedAudioSound?.getDuration(),
+				audioFileFormat: 'wav',
+				/*audioRawData: this.collectedAudio
+					? firestore.Blob.fromBase64String(this.collectedAudio.toString('base64'))
+					: null,*/
+				createdAt: firestore.FieldValue.serverTimestamp(),
+			});
+		console.log('DB ID is:', firestoreRef.id);
+		const reference = storage().ref(`${firestoreRef.id}.wav`);
+		await reference.putFile(this.recordedAudioPath!);
+		const downloadURL = await reference.getDownloadURL();
+		console.log('File download url is: ', downloadURL);
+		await firestoreRef.update({audioFile: downloadURL});
+	}
+
 	clean() {
+		this.startRecordingTimestamp = 0;
+		this.stopRecordingTimestamp = 0;
 		this.recordedAccelerometer = [];
 		this.recordedMagnetometer = [];
 		this.recordedGyroscope = [];
-		this.collectedAudio = undefined;
+		//this.collectedAudio = undefined;
+		this.recordedAudioSound?.release();
+		this.recordedAudioSound = undefined;
+		this.recordedAudioPath = undefined;
 	}
 }
 export default new Model();

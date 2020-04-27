@@ -71,12 +71,16 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 					</View>
 
 					<TouchableOpacity
-						style={styles.continueButton}
-						onPress={() => {
+						style={Model.isSendingData ? styles.continueButtonDisabled : styles.continueButton}
+						disabled={Model.isSendingData}
+						onPress={async () => {
+							Model.isSendingData = true;
 							Model.recordedAudioSound?.stop();
+							await Model.sendData();
 							navigation.navigate('Home');
+							Model.isSendingData = false;
 						}}>
-						<Text style={styles.continueButtonText}>Send data</Text>
+						<Text style={styles.continueButtonText}>{Model.isSendingData ? "Sending, please wait" : "Send data"}</Text>
 					</TouchableOpacity>
 				</View>
 			) : (

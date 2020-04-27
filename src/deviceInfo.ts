@@ -9,7 +9,6 @@ interface DeviceInfo {
 	systemName: string;
 	systemVersion: string;
 	isEmulator: boolean;
-	batteryLevel: () => number;
 }
 
 // @ts-ignore -- temporary situation before initialization
@@ -22,6 +21,5 @@ export async function init() {
 	deviceInfo.systemName = deviceInfoLib.getSystemName();
 	deviceInfo.systemVersion = deviceInfoLib.getSystemVersion();
 	deviceInfo.isEmulator = await deviceInfoLib.isEmulator();
-	deviceInfo.batteryLevel = deviceInfoLib.getBatteryLevelSync;
 }
 export default deviceInfo;
