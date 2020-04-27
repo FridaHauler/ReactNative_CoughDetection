@@ -150,6 +150,7 @@ class Model {
 		}, 1000);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	private async handleAudioRecordingCallback(data: string) {
 		/*const buffer = Buffer.from(data, 'base64');
 		if (!this.collectedAudio) {
@@ -192,7 +193,8 @@ class Model {
 		this.gyroscopeSubscription.unsubscribe();
 		this.magnetometerSubscription.unsubscribe();
 
-		this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath);
+		// TODO: not working in iOS, check why??
+		// this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath);
 
 		await this.beep();
 		await this.beep();
@@ -200,7 +202,7 @@ class Model {
 
 	async sendData() {
 		const firestoreRef = await firestore()
-			.collection('Recording')
+			.collection('Recordings')
 			.add({
 				user: deviceInfo.uniqueID,
 				subjectPosition: this.positions[this.selectedPosition],

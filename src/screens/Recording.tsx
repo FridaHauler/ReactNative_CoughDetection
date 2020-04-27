@@ -1,6 +1,6 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 import {simpleCounter} from '../utils';
 import Model from '../model/Model';
@@ -46,6 +46,7 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 
 			{Model.recordingSeconds >= Model.maxRecordingTime ? (
 				<View>
+					{/*
 					<View style={styles.recordedValidateContainer}>
 						<TouchableOpacity
 							style={styles.recordedValidateButtons}
@@ -69,7 +70,7 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 							<Image source={require('../assets/icons/stop.png')} />
 						</TouchableOpacity>
 					</View>
-
+					*/}
 					<TouchableOpacity
 						style={Model.isSendingData ? styles.continueButtonDisabled : styles.continueButton}
 						disabled={Model.isSendingData}
@@ -80,7 +81,7 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 							navigation.navigate('Home');
 							Model.isSendingData = false;
 						}}>
-						<Text style={styles.continueButtonText}>{Model.isSendingData ? "Sending, please wait" : "Send data"}</Text>
+						<Text style={styles.continueButtonText}>{Model.isSendingData ? 'Sending, please wait' : 'Send data'}</Text>
 					</TouchableOpacity>
 				</View>
 			) : (
