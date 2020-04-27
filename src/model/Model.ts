@@ -50,7 +50,7 @@ class Model {
 		}
 		for (const x of this.actions) {
 			if (x.triggerStart - this.beepBefore === this.recordingSeconds) {
-				this.playBeep().catch(console.log);
+				this.beep.catch(console.log);
 			}
 			if (x.triggerStart > this.recordingSeconds) {
 				return x;
@@ -67,17 +67,20 @@ class Model {
 	magnetometerSubscription: any;
 	recordedMagnetometer: SensorData[] = [];
 
-	private beep = new Sound('beep.mp3', Sound.MAIN_BUNDLE, (error) => {
+	private beepSound = new Sound('beep.mp3', Sound.MAIN_BUNDLE, (error) => {
 		if (error) {
 			console.log(`${logIdentifier} failed to load the sound`, error);
 			return;
 		}
 	});
-	playBeep() {
+	private get beep() {
+		return this.playSound(this.beepSound);
+	}
+	private playSound(sound: Sound) {
 		return new Promise((resolve, reject) => {
-			this.beep.play((success) => {
+			sound.play((success) => {
 				if (success) {
-					console.log(`${logIdentifier} beep!`);
+					console.log(`${logIdentifier} playback succeeded!`);
 					resolve();
 				} else {
 					console.log(`${logIdentifier} playback failed due to audio decoding errors`);
@@ -124,7 +127,7 @@ class Model {
 
 		this.recordingTimer = setInterval(async () => {
 			this.recordingSeconds++;
-			await this.playBeep();
+			await this.beep;
 			if (this.recordingSeconds === 0) {
 				if (this.recordingTimer) {
 					clearInterval(this.recordingTimer);
@@ -181,8 +184,17 @@ class Model {
 		console.log(`${logIdentifier} Accelerometer:`, this.recordedAccelerometer);
 		//console.log(`${logIdentifier} Base64:`, this.collectedAudio?.toString('base64'));
 
-		await this.playBeep();
-		await this.playBeep();
+		await this.playSound(
+			new Sound(file, Sound.MAIN_BUNDLE, (error) => {
+				if (error) {
+					console.log(`${logIdentifier} failed to load the sound`, error);
+					return;
+				}
+			}),
+		);
+
+		await this.beep;
+		await this.beep;
 	}
 
 	clean() {
