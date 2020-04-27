@@ -59,7 +59,7 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 							onPress={() => {
 								Model.recordedAudioSound?.pause();
 							}}>
-							<Image source={require('../assets/icons/pause.png')}/>
+							<Image source={require('../assets/icons/pause.png')} />
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={styles.recordedValidateButtons}
