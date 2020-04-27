@@ -18,6 +18,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* CoughRecordingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CoughRecordingTests.m */; };
 		35AC7D8F38794855F791803C /* libPods-CoughRecording-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A259E10C9CCB9D0715AC8266 /* libPods-CoughRecording-tvOSTests.a */; };
 		8C0183552451BDEA00E5A005 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C0183542451BDEA00E5A005 /* GoogleService-Info.plist */; };
+		8C9049B1245710020018C48D /* beep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8C9049B0245710020018C48D /* beep.mp3 */; };
 		E0DDE87225D64C98EAEB8CB3 /* libPods-CoughRecording.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27B2DCE9291CB9875EEF0DC7 /* libPods-CoughRecording.a */; };
 		EEC165260A09D72EB33281F4 /* libPods-CoughRecording-CoughRecordingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A09FC8FFA6920052F2504868 /* libPods-CoughRecording-CoughRecordingTests.a */; };
 		FF4EB7DE7B29115CB041C9FA /* libPods-CoughRecording-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47FAB9320C73175D6980157E /* libPods-CoughRecording-tvOS.a */; };
@@ -63,6 +64,7 @@
 		47080C2F4D43463A25CF5C44 /* Pods-CoughRecording-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoughRecording-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-CoughRecording-tvOSTests/Pods-CoughRecording-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		47FAB9320C73175D6980157E /* libPods-CoughRecording-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CoughRecording-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0183542451BDEA00E5A005 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8C9049B0245710020018C48D /* beep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = beep.mp3; path = ../android/app/src/main/res/raw/beep.mp3; sourceTree = "<group>"; };
 		A09FC8FFA6920052F2504868 /* libPods-CoughRecording-CoughRecordingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CoughRecording-CoughRecordingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A259E10C9CCB9D0715AC8266 /* libPods-CoughRecording-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CoughRecording-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E36D9CF2BB2E3731CC0DB4E1 /* Pods-CoughRecording-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoughRecording-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-CoughRecording-tvOSTests/Pods-CoughRecording-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8C9049B0245710020018C48D /* beep.mp3 */,
 				8C0183542451BDEA00E5A005 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* CoughRecording */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -345,6 +348,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				8C9049B1245710020018C48D /* beep.mp3 in Resources */,
 				8C0183552451BDEA00E5A005 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

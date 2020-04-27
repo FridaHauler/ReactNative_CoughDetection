@@ -5,6 +5,7 @@ export async function init() {
 	await remoteConfig().setDefaults({
 		totalActions: 5,
 		actionEvery: 10,
+		beepBefore: 1,
 		totalRecordingTime: 60,
 		startRecordingIn: -5,
 		sampleRate: 16000,

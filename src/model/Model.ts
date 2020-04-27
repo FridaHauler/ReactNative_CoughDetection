@@ -4,7 +4,9 @@ import AudioRecord from 'react-native-audio-record';
 import {getRemoteSettingAsNumber} from '../remoteSettings';
 import {accelerometer, gyroscope, magnetometer, SensorTypes, setUpdateIntervalForType} from 'react-native-sensors';
 import {Buffer} from 'buffer';
+import Sound from 'react-native-sound';
 
+const logIdentifier = '+ [Model]';
 export class Action {
 	triggerStart: number = 0;
 	@observable selectedAction: string | null = null;
@@ -35,6 +37,7 @@ class Model {
 	maxRecordingTime = 0;
 	totalActions = 0;
 	actionEvery = 0;
+	beepBefore = 0;
 
 	@observable startRecordingTimestamp = 0;
 	@observable stopRecordingTimestamp = 0;
@@ -46,6 +49,9 @@ class Model {
 			return this.actions[0];
 		}
 		for (const x of this.actions) {
+			if (x.triggerStart - this.beepBefore === this.recordingSeconds) {
+				this.playBeep().catch(console.log);
+			}
 			if (x.triggerStart > this.recordingSeconds) {
 				return x;
 			}
@@ -61,6 +67,26 @@ class Model {
 	magnetometerSubscription: any;
 	recordedMagnetometer: SensorData[] = [];
 
+	private beep = new Sound('beep.mp3', Sound.MAIN_BUNDLE, (error) => {
+		if (error) {
+			console.log(`${logIdentifier} failed to load the sound`, error);
+			return;
+		}
+	});
+	playBeep() {
+		return new Promise((resolve, reject) => {
+			this.beep.play((success) => {
+				if (success) {
+					console.log(`${logIdentifier} beep!`);
+					resolve();
+				} else {
+					console.log(`${logIdentifier} playback failed due to audio decoding errors`);
+					reject();
+				}
+			});
+		});
+	}
+
 	async init() {
 		const options = {
 			//
@@ -75,6 +101,7 @@ class Model {
 		this.maxRecordingTime = getRemoteSettingAsNumber('totalRecordingTime');
 		this.totalActions = getRemoteSettingAsNumber('totalActions');
 		this.actionEvery = getRemoteSettingAsNumber('actionEvery');
+		this.beepBefore = getRemoteSettingAsNumber('beepBefore');
 
 		for (let x = 1; x <= getRemoteSettingAsNumber('totalActions'); x++) {
 			this.actions = this.actions.concat(new Action(getRemoteSettingAsNumber('actionEvery') * x));
@@ -85,6 +112,8 @@ class Model {
 		setUpdateIntervalForType(SensorTypes.accelerometer, getRemoteSettingAsNumber('accelerometerInterval'));
 		setUpdateIntervalForType(SensorTypes.gyroscope, getRemoteSettingAsNumber('gyroscopeInterval'));
 		setUpdateIntervalForType(SensorTypes.magnetometer, getRemoteSettingAsNumber('magnetometerInterval'));
+
+		Sound.setCategory('Playback');
 	}
 
 	delayedStart() {
@@ -92,8 +121,10 @@ class Model {
 			clearInterval(this.recordingTimer);
 		}
 		this.recordingSeconds = this.startRecordingIn;
+
 		this.recordingTimer = setInterval(async () => {
 			this.recordingSeconds++;
+			await this.playBeep();
 			if (this.recordingSeconds === 0) {
 				if (this.recordingTimer) {
 					clearInterval(this.recordingTimer);
@@ -110,7 +141,7 @@ class Model {
 		} else {
 			this.collectedAudio = Buffer.concat([this.collectedAudio, buffer]);
 		}
-		console.log('chunk size', this.collectedAudio.byteLength);
+		console.log(`${logIdentifier} chunk size`, this.collectedAudio.byteLength);
 
 		// update time
 		this.recordingSeconds = dateTimeNow() - this.startRecordingTimestamp;
@@ -124,30 +155,34 @@ class Model {
 		this.startRecordingTimestamp = dateTimeNow();
 		this.accelerometerSubscription = accelerometer.subscribe(
 			({x, y, z, timestamp}) => this.recordedAccelerometer.push({x, y, z, timestamp}),
-			(error) => console.log(error),
+			(error) => console.log(logIdentifier, error),
 		);
 		this.gyroscopeSubscription = gyroscope.subscribe(
 			({x, y, z, timestamp}) => this.recordedGyroscope.push({x, y, z, timestamp}),
-			(error) => console.log(error),
+			(error) => console.log(logIdentifier, error),
 		);
 		this.magnetometerSubscription = magnetometer.subscribe(
 			({x, y, z, timestamp}) => this.recordedMagnetometer.push({x, y, z, timestamp}),
-			(error) => console.log(error),
+			(error) => console.log(logIdentifier, error),
 		);
 
 		AudioRecord.on('data', this.handleAudioRecordingCallback.bind(this));
 		AudioRecord.start();
 	}
 	async stopRecording() {
+		const file = await AudioRecord.stop();
+		this.stopRecordingTimestamp = dateTimeNow();
+
 		this.accelerometerSubscription.unsubscribe();
 		this.gyroscopeSubscription.unsubscribe();
 		this.magnetometerSubscription.unsubscribe();
 
-		this.stopRecordingTimestamp = dateTimeNow();
-		const file = await AudioRecord.stop();
-		console.log('File:', file);
-		console.log('Accelerometer:', this.recordedAccelerometer);
-		console.log('Base64:', this.collectedAudio?.toString('base64'));
+		console.log(`${logIdentifier} File:`, file);
+		console.log(`${logIdentifier} Accelerometer:`, this.recordedAccelerometer);
+		//console.log(`${logIdentifier} Base64:`, this.collectedAudio?.toString('base64'));
+
+		await this.playBeep();
+		await this.playBeep();
 	}
 
 	clean() {
