@@ -22,7 +22,7 @@ const StartRecording = ({navigation}: StackNavigationProps) => {
 				<TouchableOpacity
 					style={styles.startButton}
 					onPress={async () => {
-						await Model.scheduleStart();
+						await Model.delayedStart();
 						navigation.navigate('Recording');
 					}}>
 					<Text style={styles.startText}>Start</Text>

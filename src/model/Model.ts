@@ -87,7 +87,7 @@ class Model {
 		setUpdateIntervalForType(SensorTypes.magnetometer, getRemoteSettingAsNumber('magnetometerInterval'));
 	}
 
-	scheduleStart() {
+	delayedStart() {
 		if (this.recordingTimer) {
 			clearInterval(this.recordingTimer);
 		}
@@ -95,26 +95,33 @@ class Model {
 		this.recordingTimer = setInterval(async () => {
 			this.recordingSeconds++;
 			if (this.recordingSeconds === 0) {
+				if (this.recordingTimer) {
+					clearInterval(this.recordingTimer);
+				}
 				await this.startRecording();
 			}
-			if (this.recordingSeconds >= this.maxRecordingTime) {
-				await this.stopRecording();
-			}
 		}, 1000);
+	}
+
+	private async handleAudioRecordingCallback(data: string) {
+		const buffer = Buffer.from(data, 'base64');
+		if (!this.collectedAudio) {
+			this.collectedAudio = buffer;
+		} else {
+			this.collectedAudio = Buffer.concat([this.collectedAudio, buffer]);
+		}
+		console.log('chunk size', this.collectedAudio.byteLength);
+
+		// update time
+		this.recordingSeconds = dateTimeNow() - this.startRecordingTimestamp;
+		if (this.recordingSeconds >= this.maxRecordingTime) {
+			await this.stopRecording();
+		}
 	}
 
 	private startRecording() {
 		this.stopRecordingTimestamp = 0;
 		this.startRecordingTimestamp = dateTimeNow();
-		AudioRecord.on('data', (data) => {
-			const buffer = Buffer.from(data, 'base64');
-			if (!this.collectedAudio) {
-				this.collectedAudio = buffer;
-			} else {
-				this.collectedAudio = Buffer.concat([this.collectedAudio, buffer]);
-			}
-			console.log('chunk size', this.collectedAudio.byteLength);
-		});
 		this.accelerometerSubscription = accelerometer.subscribe(
 			({x, y, z, timestamp}) => this.recordedAccelerometer.push({x, y, z, timestamp}),
 			(error) => console.log(error),
@@ -127,6 +134,8 @@ class Model {
 			({x, y, z, timestamp}) => this.recordedMagnetometer.push({x, y, z, timestamp}),
 			(error) => console.log(error),
 		);
+
+		AudioRecord.on('data', this.handleAudioRecordingCallback.bind(this));
 		AudioRecord.start();
 	}
 	async stopRecording() {
@@ -134,9 +143,6 @@ class Model {
 		this.gyroscopeSubscription.unsubscribe();
 		this.magnetometerSubscription.unsubscribe();
 
-		if (this.recordingTimer) {
-			clearInterval(this.recordingTimer);
-		}
 		this.stopRecordingTimestamp = dateTimeNow();
 		const file = await AudioRecord.stop();
 		console.log('File:', file);
