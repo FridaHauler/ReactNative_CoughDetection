@@ -1,6 +1,6 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 import {simpleCounter} from '../utils';
 import Model from '../model/Model';
@@ -45,13 +45,40 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 			</View>
 
 			{Model.recordingSeconds >= Model.maxRecordingTime ? (
-				<TouchableOpacity
-					style={styles.continueButton}
-					onPress={() => {
-						navigation.navigate('Home');
-					}}>
-					<Text style={styles.continueButtonText}>Send data</Text>
-				</TouchableOpacity>
+				<View>
+					<View style={styles.recordedValidateContainer}>
+						<TouchableOpacity
+							style={styles.recordedValidateButtons}
+							onPress={() => {
+								Model.recordedAudioSound?.play();
+							}}>
+							<Image source={require('../assets/icons/play.png')} />
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.recordedValidateButtons}
+							onPress={() => {
+								Model.recordedAudioSound?.pause();
+							}}>
+							<Image source={require('../assets/icons/pause.png')}/>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.recordedValidateButtons}
+							onPress={() => {
+								Model.recordedAudioSound?.stop();
+							}}>
+							<Image source={require('../assets/icons/stop.png')} />
+						</TouchableOpacity>
+					</View>
+
+					<TouchableOpacity
+						style={styles.continueButton}
+						onPress={() => {
+							Model.recordedAudioSound?.stop();
+							navigation.navigate('Home');
+						}}>
+						<Text style={styles.continueButtonText}>Send data</Text>
+					</TouchableOpacity>
+				</View>
 			) : (
 				<View />
 			)}

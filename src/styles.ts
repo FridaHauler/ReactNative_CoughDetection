@@ -239,5 +239,20 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 	},
+	recordedValidateContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-evenly',
+	},
+	recordedValidateButtons: {
+		backgroundColor: 'darkgray',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: 'lightgray',
+		borderRadius: 100,
+		height: 60,
+		width: 60,
+	},
 });
 export default styles;

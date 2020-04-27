@@ -50,7 +50,7 @@ class Model {
 		}
 		for (const x of this.actions) {
 			if (x.triggerStart - this.beepBefore === this.recordingSeconds) {
-				this.beep.catch(console.log);
+				this.beep().catch(console.log);
 			}
 			if (x.triggerStart > this.recordingSeconds) {
 				return x;
@@ -59,6 +59,8 @@ class Model {
 		return null;
 	}
 
+	@observable recordedAudioPath: string | undefined;
+	@observable recordedAudioSound: Sound | undefined;
 	collectedAudio: Buffer | undefined;
 	gyroscopeSubscription: any;
 	recordedGyroscope: SensorData[] = [];
@@ -67,27 +69,41 @@ class Model {
 	magnetometerSubscription: any;
 	recordedMagnetometer: SensorData[] = [];
 
-	private beepSound = new Sound('beep.mp3', Sound.MAIN_BUNDLE, (error) => {
-		if (error) {
-			console.log(`${logIdentifier} failed to load the sound`, error);
-			return;
-		}
-	});
-	private get beep() {
-		return this.playSound(this.beepSound);
+	private getSoundFile(file: string, path: string = Sound.MAIN_BUNDLE): Promise<Sound> {
+		return new Promise((resolve, reject) => {
+			if (!file) {
+				const msg = 'file path is empty';
+				console.log(logIdentifier, msg);
+				return reject(msg);
+			}
+			const sound: Sound = new Sound(file, path, (error) => {
+				if (error) {
+					console.log(`${logIdentifier} failed to load the file`, error);
+					return reject(error);
+				}
+				return resolve(sound);
+			});
+		});
 	}
-	private playSound(sound: Sound) {
+	private play(sound: Sound): Promise<void> {
 		return new Promise((resolve, reject) => {
 			sound.play((success) => {
 				if (success) {
 					console.log(`${logIdentifier} playback succeeded!`);
 					resolve();
 				} else {
-					console.log(`${logIdentifier} playback failed due to audio decoding errors`);
-					reject();
+					const msg = 'playback failed due to audio decoding errors';
+					console.log(logIdentifier, msg);
+					reject(msg);
 				}
 			});
 		});
+	}
+	private beepSound: Sound | undefined;
+	private async beep() {
+		if (this.beepSound) {
+			return this.play(this.beepSound);
+		}
 	}
 
 	async init() {
@@ -117,6 +133,7 @@ class Model {
 		setUpdateIntervalForType(SensorTypes.magnetometer, getRemoteSettingAsNumber('magnetometerInterval'));
 
 		Sound.setCategory('Playback');
+		this.beepSound = await this.getSoundFile('beep.mp3');
 	}
 
 	delayedStart() {
@@ -127,7 +144,7 @@ class Model {
 
 		this.recordingTimer = setInterval(async () => {
 			this.recordingSeconds++;
-			await this.beep;
+			await this.beep();
 			if (this.recordingSeconds === 0) {
 				if (this.recordingTimer) {
 					clearInterval(this.recordingTimer);
@@ -173,28 +190,21 @@ class Model {
 		AudioRecord.start();
 	}
 	async stopRecording() {
-		const file = await AudioRecord.stop();
+		this.recordedAudioPath = await AudioRecord.stop();
 		this.stopRecordingTimestamp = dateTimeNow();
 
 		this.accelerometerSubscription.unsubscribe();
 		this.gyroscopeSubscription.unsubscribe();
 		this.magnetometerSubscription.unsubscribe();
 
-		console.log(`${logIdentifier} File:`, file);
+		console.log(`${logIdentifier} File:`, this.recordedAudioPath);
 		console.log(`${logIdentifier} Accelerometer:`, this.recordedAccelerometer);
-		//console.log(`${logIdentifier} Base64:`, this.collectedAudio?.toString('base64'));
+		console.log(`${logIdentifier} Base64: ${this.collectedAudio?.toString('base64')}`);
 
-		await this.playSound(
-			new Sound(file, Sound.MAIN_BUNDLE, (error) => {
-				if (error) {
-					console.log(`${logIdentifier} failed to load the sound`, error);
-					return;
-				}
-			}),
-		);
+		this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath);
 
-		await this.beep;
-		await this.beep;
+		await this.beep();
+		await this.beep();
 	}
 
 	clean() {
