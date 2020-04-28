@@ -1,7 +1,7 @@
 import {computed, observable} from 'mobx';
 import {dateTimeNow} from '../utils';
 import AudioRecord from 'react-native-audio-record';
-import {getRemoteSettingAsNumber} from '../remoteSettings';
+import {getRemoteSettingAsBoolean, getRemoteSettingAsNumber} from '../remoteSettings';
 import {accelerometer, gyroscope, magnetometer, SensorTypes, setUpdateIntervalForType} from 'react-native-sensors';
 import Sound from 'react-native-sound';
 import firestore from '@react-native-firebase/firestore';
@@ -103,7 +103,7 @@ class Model {
 	}
 	private beepSound: Sound | undefined;
 	private async beep() {
-		if (this.beepSound) {
+		if (this.beepSound && getRemoteSettingAsBoolean('beepEnabled')) {
 			return this.play(this.beepSound);
 		}
 	}

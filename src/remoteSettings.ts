@@ -5,6 +5,7 @@ export async function init() {
 	await remoteConfig().setDefaults({
 		totalActions: 5,
 		actionEvery: 10,
+		beepEnabled: false,
 		beepBefore: 1,
 		totalRecordingTime: 60,
 		startRecordingIn: -5,
@@ -25,6 +26,9 @@ export async function init() {
 
 export function getRemoteSettingAsNumber(key: string) {
 	return remoteConfig().getValue(key).value as number;
+}
+export function getRemoteSettingAsBoolean(key: string) {
+	return remoteConfig().getValue(key).value as boolean;
 }
 export function getRemoteSettingAsString(key: string) {
 	return remoteConfig().getValue(key).value as string;
