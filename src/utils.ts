@@ -12,13 +12,13 @@ export const isAndroid = Platform.OS === 'android';
 
 // Date Time methods
 export function dateTimeNow() {
-	return Math.round(Date.now() / 1000); // seconds
+	return Date.now(); // seconds
 }
 export function dateTimeParse(date: string | null) {
-	return date !== null ? Date.parse(date) / 1000 : null; // seconds
+	return date !== null ? Date.parse(date) : null; // seconds
 }
 export function dateTimeToLocale(date: number) {
-	return new Date(date * 1000).toLocaleString();
+	return new Date(date).toLocaleString();
 }
 export function simpleCounter(seconds: number) {
 	function round(value: number, precision: number = 1) {

@@ -160,7 +160,7 @@ class Model {
 		}
 		*/
 		// update time
-		this.recordingSeconds = dateTimeNow() - this.startRecordingTimestamp;
+		this.recordingSeconds = Math.round((dateTimeNow() - this.startRecordingTimestamp) / 1000);
 		if (this.recordingSeconds >= this.maxRecordingTime) {
 			await this.stopRecording();
 		}
