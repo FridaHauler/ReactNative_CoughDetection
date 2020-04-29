@@ -46,7 +46,7 @@ class Model {
 	@observable isSendingData = false;
 
 	@observable recordingSeconds = 0;
-	@computed get nextAction(): Action | null {
+	@computed get nextAction(): Action | undefined {
 		if (this.recordingSeconds < 0) {
 			return this.actions[0];
 		}
@@ -58,7 +58,6 @@ class Model {
 				return x;
 			}
 		}
-		return null;
 	}
 
 	@observable recordedAudioPath: string | undefined;
@@ -102,10 +101,11 @@ class Model {
 		});
 	}
 	private beepSound: Sound | undefined;
-	private async beep() {
+	private beep() {
 		if (this.beepSound && getRemoteSettingAsBoolean('beepEnabled')) {
 			return this.play(this.beepSound);
 		}
+		return Promise.resolve();
 	}
 
 	async init() {
