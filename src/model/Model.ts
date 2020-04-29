@@ -2,7 +2,14 @@ import {computed, observable} from 'mobx';
 import {dateTimeNow} from '../utils';
 import AudioRecord from 'react-native-audio-record';
 import {getRemoteSettingAsBoolean, getRemoteSettingAsNumber} from '../remoteSettings';
-import {accelerometer, gyroscope, magnetometer, SensorTypes, setUpdateIntervalForType} from 'react-native-sensors';
+import {
+	accelerometer,
+	gyroscope,
+	magnetometer,
+	SensorData,
+	SensorTypes,
+	setUpdateIntervalForType
+} from 'react-native-sensors';
 import Sound from 'react-native-sound';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
@@ -17,13 +24,6 @@ export class Action {
 		this.triggerStart = start;
 	}
 }
-
-type SensorData = {
-	x: number;
-	y: number;
-	z: number;
-	timestamp: string;
-};
 
 class Model {
 	@observable selectedPosition = 0;
