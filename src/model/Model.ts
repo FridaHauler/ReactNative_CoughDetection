@@ -8,7 +8,7 @@ import {
 	magnetometer,
 	SensorData,
 	SensorTypes,
-	setUpdateIntervalForType
+	setUpdateIntervalForType,
 } from 'react-native-sensors';
 import Sound from 'react-native-sound';
 import firestore from '@react-native-firebase/firestore';
