@@ -1,6 +1,5 @@
 import {computed, observable} from 'mobx';
 import {dateTimeNow} from '../utils';
-import AudioRecord from 'react-native-audio-record';
 import {getRemoteSettingAsBoolean, getRemoteSettingAsNumber} from '../remoteSettings';
 import {
 	accelerometer,
@@ -10,6 +9,7 @@ import {
 	SensorTypes,
 	setUpdateIntervalForType,
 } from 'react-native-sensors';
+import AudioRecorder from 'react-native-audio-record';
 import Sound from 'react-native-sound';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
@@ -86,11 +86,19 @@ class Model {
 			});
 		});
 	}
-	private play(sound: Sound): Promise<void> {
+	private beepSound: Sound | undefined;
+	private beep() {
 		return new Promise((resolve, reject) => {
-			sound.play((success) => {
+			if (!getRemoteSettingAsBoolean('beepEnabled')) {
+				return resolve();
+			}
+
+			Sound.setCategory('PlayAndRecord', true);
+			Sound.setMode('VideoChat');
+			Sound.setActive(true);
+			this.beepSound?.play((success) => {
 				if (success) {
-					console.log(`${logIdentifier} playback succeeded!`);
+					console.log(`${logIdentifier} beep!`);
 					resolve();
 				} else {
 					const msg = 'playback failed due to audio decoding errors';
@@ -99,13 +107,6 @@ class Model {
 				}
 			});
 		});
-	}
-	private beepSound: Sound | undefined;
-	private beep() {
-		if (this.beepSound && getRemoteSettingAsBoolean('beepEnabled')) {
-			return this.play(this.beepSound);
-		}
-		return Promise.resolve();
 	}
 
 	async init() {
@@ -119,20 +120,19 @@ class Model {
 			this.actions = this.actions.concat(new Action(getRemoteSettingAsNumber('actionEvery') * x));
 		}
 
-		await AudioRecord.init({
+		await AudioRecorder.init({
 			sampleRate: getRemoteSettingAsNumber('sampleRate'), // default 44100
 			channels: getRemoteSettingAsNumber('channels'), // 1 or 2, default 1
 			bitsPerSample: getRemoteSettingAsNumber('bitsPerSample'), // 8 or 16, default 16
 			audioSource: getRemoteSettingAsNumber('audioSource'), // android only
 			wavFile: 'recoding.wav', // default 'audio.wav'
 		});
-		AudioRecord.on('data', this.handleAudioRecordingCallback.bind(this));
+		AudioRecorder.on('data', this.handleAudioRecordingCallback.bind(this));
 
 		setUpdateIntervalForType(SensorTypes.accelerometer, getRemoteSettingAsNumber('accelerometerInterval'));
 		setUpdateIntervalForType(SensorTypes.gyroscope, getRemoteSettingAsNumber('gyroscopeInterval'));
 		setUpdateIntervalForType(SensorTypes.magnetometer, getRemoteSettingAsNumber('magnetometerInterval'));
 
-		Sound.setCategory('Playback');
 		this.beepSound = await this.getSoundFile('beep.mp3');
 	}
 
@@ -183,17 +183,17 @@ class Model {
 			(error) => console.log(logIdentifier, error),
 		);
 
-		AudioRecord.start();
+		AudioRecorder.start();
 	}
 	async stopRecording() {
-		this.recordedAudioPath = await AudioRecord.stop();
+		this.recordedAudioPath = await AudioRecorder.stop();
 		this.stopRecordingTimestamp = dateTimeNow();
 
 		this.accelerometerSubscription.unsubscribe();
 		this.gyroscopeSubscription.unsubscribe();
 		this.magnetometerSubscription.unsubscribe();
 
-		this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath);
+		this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath!, '');
 
 		await this.beep();
 		await this.beep();

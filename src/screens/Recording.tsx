@@ -1,10 +1,11 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {BackHandler, Text, TouchableOpacity, View} from 'react-native';
+import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 import {simpleCounter} from '../utils';
 import Model from '../model/Model';
 import {observer} from 'mobx-react-lite';
+import Sound from 'react-native-sound';
 
 const Recording = observer(({navigation}: StackNavigationProps) => {
 	BackHandler.addEventListener('hardwareBackPress', () => true);
@@ -47,11 +48,11 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 
 			{Model.recordingSeconds >= Model.maxRecordingTime ? (
 				<View>
-					{/*
 					<View style={styles.recordedValidateContainer}>
 						<TouchableOpacity
 							style={styles.recordedValidateButtons}
 							onPress={() => {
+								Sound.setCategory('Playback', true);
 								Model.recordedAudioSound?.play();
 							}}>
 							<Image source={require('../assets/icons/play.png')} />
@@ -71,7 +72,7 @@ const Recording = observer(({navigation}: StackNavigationProps) => {
 							<Image source={require('../assets/icons/stop.png')} />
 						</TouchableOpacity>
 					</View>
-					*/}
+
 					<TouchableOpacity
 						style={Model.isSendingData ? styles.continueButtonDisabled : styles.continueButton}
 						disabled={Model.isSendingData}
