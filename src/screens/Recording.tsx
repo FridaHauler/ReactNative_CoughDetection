@@ -1,12 +1,13 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {BackHandler, Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 import {simpleCounter} from '../utils';
 import Model from '../model/Model';
 import {observer} from 'mobx-react-lite';
 
 const Recording = observer(({navigation}: StackNavigationProps) => {
+	BackHandler.addEventListener('hardwareBackPress', () => true);
 	return (
 		<View style={styles.container}>
 			<View>
