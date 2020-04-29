@@ -193,8 +193,7 @@ class Model {
 		this.gyroscopeSubscription.unsubscribe();
 		this.magnetometerSubscription.unsubscribe();
 
-		// TODO: not working in iOS, check why??
-		// this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath);
+		this.recordedAudioSound = await this.getSoundFile(this.recordedAudioPath);
 
 		await this.beep();
 		await this.beep();
