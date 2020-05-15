@@ -635,7 +635,7 @@ PODS:
     - React
   - RNScreens (2.5.0):
     - React
-  - RNSensors (5.4.2):
+  - RNSensors (5.0.0-rc4):
     - React
   - RNSound (0.11.0):
     - React
@@ -920,7 +920,7 @@ SPEC CHECKSUMS:
   RNPermissions: 6772df08e03565f718f7e140d9fccae441b8ca8b
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: ac02d0e4529f08ced69f5580d416f968a6ec3a1d
-  RNSensors: 65a78398cd375fc9276fa180725a1a5e1f81b5e2
+  RNSensors: fbdaf36a6773537c5eaf1e894df44aeffaaccfb2
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
