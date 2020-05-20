@@ -1,4 +1,4 @@
-package io.beame.coughrecording;
+package com.brainlab.coughrecording;
 
 import com.facebook.react.ReactActivity;
 

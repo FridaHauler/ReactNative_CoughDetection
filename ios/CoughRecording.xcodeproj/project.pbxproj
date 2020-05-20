@@ -701,7 +701,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.beame.coughrecording;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brainlab.coughrecording;
 				PRODUCT_NAME = CoughRecording;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -725,7 +725,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.beame.coughrecording;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brainlab.coughrecording;
 				PRODUCT_NAME = CoughRecording;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -754,7 +754,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.beame.coughrecording-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brainlab.coughrecording-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -783,7 +783,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.beame.coughrecording-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brainlab.coughrecording-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -810,7 +810,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.beame.coughrecording-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brainlab.coughrecording-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoughRecording-tvOS.app/CoughRecording-tvOS";
@@ -837,7 +837,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.beame.coughrecording-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.brainlab.coughrecording-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoughRecording-tvOS.app/CoughRecording-tvOS";
