@@ -5306,9 +5306,10 @@ react-native-screens@^2.5.0:
   dependencies:
     debounce "^1.2.0"
 
-"react-native-sensors@git+https://github.com/beameio/react-native-sensors.git":
-  version "5.0.0-rc4"
-  resolved "git+https://github.com/beameio/react-native-sensors.git#c7aa6a354df280d7faf3515516ddfbec38cc99bb"
+react-native-sensors@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-sensors/-/react-native-sensors-6.0.1.tgz#1e1a7e00f9b7a38c7a2a11fef8a97e4f629857d8"
+  integrity sha512-O8h9/puFRe370wTnZGAX2ZJqOHdbISQyEzApzeSZ3QU5SnO2lX4EzHSk6xdZS36ypuFjOedqgX0jxTMVR6CWHg==
   dependencies:
     rxjs ">= 6"
 
