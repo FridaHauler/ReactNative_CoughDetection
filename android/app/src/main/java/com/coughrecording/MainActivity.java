@@ -1,4 +1,4 @@
-package com.brainlab.coughrecording;
+package com.brainlab.coughdetect;
 
 import com.facebook.react.ReactActivity;
 

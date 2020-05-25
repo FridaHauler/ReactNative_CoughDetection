@@ -1,4 +1,4 @@
-# Cough Recording App
+# Cough Detect App
 
 [![Actions Status](/../../workflows/Build/badge.svg?branch=master)](/../../actions?query=workflow%3A%22Build%22+branch%3Amaster)
 

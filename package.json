@@ -1,6 +1,6 @@
 {
-  "name": "CoughRecording",
-  "version": "1.0.4",
+  "name": "CoughDetect",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "postinstall": "yarn pod",
