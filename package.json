@@ -11,6 +11,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "xcode": "open ios/CoughRecording.xcworkspace/",
+    "clean-build": "rm -rf node_modules/ ios/Pods ios/Podfiles.lock android/build && yarn",
     "generateIcons": "yarn add @bam.tech/react-native-make && react-native set-icon --path src/assets/logo.png --background \"#4b4c50\" && yarn remove @bam.tech/react-native-make"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.13",
     "jsc-android": "^241213.1.0",
+    "logkitty": "^0.7.1",
     "mobx": "^5.15.4",
     "mobx-react-lite": "^2.0.6",
     "react": "16.11.0",
