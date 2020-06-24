@@ -28,6 +28,7 @@ This project is created using react-native.
 ## Starting up
 * `git clone` branch and `cd` into directory
 * `yarn` to install dependencies
+* `yarn start` to start the server (in a different shell)
 * `yarn ios` to run in ios emulator
 * `yarn android` to run in Android emulator or device (the one visible by `adb`)
 
@@ -38,6 +39,7 @@ This project is created using react-native.
 * `yarn lint` run the linter
 * `yarn lint --fix` autofix linter issues
 * `yarn start` start the server side manually
+* `yarn clean-build` clean and rebuilds everything
 
 
 ## Release
