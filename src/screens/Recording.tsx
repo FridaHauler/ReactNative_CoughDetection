@@ -10,7 +10,7 @@ import Sound from 'react-native-sound';
 const Recording = observer(({navigation}: StackNavigationProps) => {
 	BackHandler.addEventListener('hardwareBackPress', () => true);
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, styles.insideContainer]}>
 			<View>
 				<Text style={styles.title}>Recording in progress</Text>
 			</View>

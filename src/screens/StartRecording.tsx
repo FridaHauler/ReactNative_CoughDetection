@@ -6,7 +6,7 @@ import Model from '../model/Model';
 
 const StartRecording = ({navigation}: StackNavigationProps) => {
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, styles.insideContainer]}>
 			<View>
 				<Text style={styles.title}>Please start the recording</Text>
 				{/*<TouchableOpacity

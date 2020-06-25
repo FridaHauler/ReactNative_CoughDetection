@@ -31,14 +31,16 @@ const styles = StyleSheet.create({
 		color: AppTheme.colors.text,
 	},
 	container: {
-		paddingHorizontal: 20,
-		paddingTop: 30,
-		paddingBottom: 40,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		flex: 1,
 		backgroundColor: AppTheme.colors.background,
 		color: AppTheme.colors.text,
+	},
+	insideContainer: {
+		paddingHorizontal: 20,
+		paddingTop: 30,
+		paddingBottom: 40,
 	},
 	centerContainer: {
 		justifyContent: 'center',
