@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 40,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
-		height: '100%',
+		flex: 1,
 		backgroundColor: AppTheme.colors.background,
 		color: AppTheme.colors.text,
 	},
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'flex-start',
+		marginVertical: 10,
 	},
 	selectorContainer: {
 		paddingHorizontal: 10,
@@ -137,7 +138,8 @@ const styles = StyleSheet.create({
 		paddingVertical: 12,
 		paddingHorizontal: 12,
 		justifyContent: 'center',
-		marginVertical: 15,
+		marginBottom: 15,
+		marginTop: 40,
 		marginHorizontal: 15,
 	},
 	continueButtonDisabled: {
@@ -253,6 +255,12 @@ const styles = StyleSheet.create({
 		borderRadius: 100,
 		height: 60,
 		width: 60,
+	},
+	marginTop: {
+		marginTop: 40,
+	},
+	marginBottom: {
+		marginBottom: 40,
 	},
 });
 export default styles;

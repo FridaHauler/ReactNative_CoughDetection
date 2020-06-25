@@ -1,6 +1,6 @@
 import React from 'react';
 import {StackNavigationProps} from '../screens';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 import Model from '../model/Model';
 import deviceInfo from '../deviceInfo';
@@ -8,7 +8,7 @@ import deviceInfo from '../deviceInfo';
 const Home = ({navigation}: StackNavigationProps) => {
 	return (
 		<View style={styles.container}>
-			<View>
+			<ScrollView>
 				<Text style={styles.text}>Dear Data Donator,</Text>
 				<Text style={styles.textParagraph}>Many thanks for participating in our data collection.</Text>
 				<Text style={styles.textParagraph}>
@@ -26,7 +26,7 @@ const Home = ({navigation}: StackNavigationProps) => {
 				<Text style={styles.textParagraph}>
 					Your device unique identifier, persisted between installations, is {deviceInfo.uniqueID}
 				</Text>
-			</View>
+			</ScrollView>
 			<TouchableOpacity
 				style={styles.continueButton}
 				onPress={() => {
