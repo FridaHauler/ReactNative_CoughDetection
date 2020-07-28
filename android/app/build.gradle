@@ -130,10 +130,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.brainlab.coughdetect"
+        applicationId "com.brainlab.coughmodel"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
+        versionCode 1
         versionName "1.0"
         multiDexEnabled true
     }
