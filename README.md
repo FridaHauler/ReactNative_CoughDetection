@@ -28,6 +28,7 @@ This project is created using react-native.
 ## Starting up
 * `git clone` branch and `cd` into directory
 * `yarn` to install dependencies
+* `npx jetify` to install jetify
 * `yarn start` to start the server (in a different shell)
 * `yarn ios` to run in ios emulator
 * `yarn android` to run in Android emulator or device (the one visible by `adb`)
