@@ -20,6 +20,7 @@ import MetaInformation from './screens/MetaInformation';
 import StartRecording from './screens/StartRecording';
 import Recording from './screens/Recording';
 import ActionsSelector from './screens/ActionsSelector';
+import CoughClassifier from './screens/CoughClassifier';
 import {acquireMotionPermissions, acquireRecordPermissions} from './permissions';
 
 export type StackNavigationProps = {
@@ -74,6 +75,7 @@ export default function Screens() {
 					component={Recording}
 					options={{title: '', headerShown: false, gestureEnabled: false}}
 				/>
+				<Stack.Screen name="CoughClassifier" component={CoughClassifier} options={{title: 'Classifier'}} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
