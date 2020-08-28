@@ -4,13 +4,12 @@ import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 import {simpleCounter} from '../utils';
 import Model from '../model/Model';
-import {observer} from 'mobx-react-lite';
 import Sound from 'react-native-sound';
 
 class CoughClassifier extends Component {
 	render() {
 		return (
-			<View style={styles.recordedValidateContainer}>
+			<View style={styles.insideContainer}>
 				<TouchableOpacity
 					style={styles.recordedValidateButtons}
 					onPress={() => {
