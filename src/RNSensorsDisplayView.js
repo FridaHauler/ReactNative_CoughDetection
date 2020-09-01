@@ -8,7 +8,7 @@ import DisplaySensorData from './DisplaySensorData';
 export default class RNSensorsDisplayView extends Component {
 	render() {
 		return (
-			<ScrollableTabView style={{marginTop: 20}} renderTabBar={() => <DefaultTabBar />}>
+			<ScrollableTabView style={{marginTop: 2}} renderTabBar={() => <DefaultTabBar />}>
 				<DisplaySensorData tabLabel={'SensorDisplay'} />
 				<ViewSensors tableLabel="ViewSensors" />
 			</ScrollableTabView>
